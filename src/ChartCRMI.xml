@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="mendix.chartcrmi.ChartCRMI" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Chart CRMI</name>
+    <description>My widget description</description>
+    <icon/>
+    <properties>
+        <propertyGroup caption="General">
+   <property key="data" type="datasource" isList="true" required="false">
+	<caption>Data source</caption>
+	<description />
+</property>
+         <property key="buttonAction" type="action">
+	<caption>On clicks</caption>
+	<description>Action to be performed when chart slice is clicked</description>
+</property>
+
+ <property key="ValueName" type="attribute" dataSource="data">
+	<caption>Name</caption>
+	<description>his attribute is the name of the values</description>
+	<attributeTypes>
+		<attributeType name="String"/>
+	</attributeTypes>
+</property>
+ <property key="Value" type="attribute" dataSource="data">
+	<caption>Value</caption>
+	<description>this attribute is the values</description>
+	<attributeTypes>
+		<attributeType name="Integer"/>
+    	<attributeType name="Decimal"/>
+	</attributeTypes>
+</property>
+ <property key="sort" type="attribute" dataSource="data">
+	<caption>sort</caption>
+	<description>this attribute is to sort the values</description>
+	<attributeTypes>
+		<attributeType name="Integer"/>
+    	<attributeType name="String"/>
+		<attributeType name="Decimal"/>
+	</attributeTypes>
+</property>
+        </propertyGroup>
+    </properties>
+</widget>
