@@ -7,7 +7,6 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
     const [DynamicWidth, setDynamicWidth] = useState(-1);
     const [DynamicHeight, setDynamicHeight] = useState(-1);
     const [ChartData, setChartData] = useState([]);
-    const [readyToBuildChart, setReadyToBuildChart] = useState(false);
     const observerDiv = useRef(null);
 
     useEffect(() => {
@@ -94,29 +93,18 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
         const numDataPoints = ChartData.length;
         const DynamicWidthValue = 300 + numDataPoints * 20;
         const DynamicHeightValue = 300 + numDataPoints * 20 + 100;
-        const observer = new ResizeObserver(() => {
-            setDynamicWidth(DynamicWidthValue);
-            setDynamicHeight(DynamicHeightValue);
-            setReadyToBuildChart(true);
-        });
 
-        observer.observe(observerDiv.current);
-
-        return () => {
-            observer.disconnect(observerDiv.current);
-        };
-    }, [ChartData]);
-
-    useEffect(() => {
-        if (readyToBuildChart) {
-            if (sort.type === "Integer" || sort.type === "Decimal") {
-                ChartData.sort((a, b) => {
-                    return a.value - b.value;
-                });
-            }
-            buildChart();
+        setDynamicWidth(DynamicWidthValue);
+        setDynamicHeight(DynamicHeightValue);
+        if (sort.type === "Integer" || sort.type === "Decimal") {
+            ChartData.sort((a, b) => {
+                return a.value - b.value;
+            });
         }
-    }, [readyToBuildChart]);
+        setTimeout(() => {
+            buildChart();
+        }, 500);
+    }, [ChartData]);
 
     return (
         <div>
