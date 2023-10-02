@@ -11,7 +11,9 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
 
     useEffect(() => {
         if (data.status === "available") {
+            console.info("inside useEffect data", data);
             const ValuesName = data.items.map(item => {
+                console.info("ValueName", ValueName);
                 return ValueName.get(item);
             });
 

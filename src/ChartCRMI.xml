@@ -17,14 +17,14 @@
 	<description>Action to be performed when chart slice is clicked</description>
 </property>
 
- <property key="ValueName" type="attribute" dataSource="data">
+ <property key="ValueName" type="attribute" >
 	<caption>Name</caption>
 	<description>his attribute is the name of the values</description>
 	<attributeTypes>
 		<attributeType name="String"/>
 	</attributeTypes>
 </property>
- <property key="Value" type="attribute" dataSource="data">
+ <property key="Value" type="attribute" >
 	<caption>Value</caption>
 	<description>this attribute is the values</description>
 	<attributeTypes>
@@ -32,7 +32,7 @@
     	<attributeType name="Decimal"/>
 	</attributeTypes>
 </property>
- <property key="sort" type="attribute" dataSource="data">
+ <property key="sort" type="attribute" >
 	<caption>sort</caption>
 	<description>this attribute is to sort the values</description>
 	<attributeTypes>
