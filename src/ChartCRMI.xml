@@ -17,7 +17,7 @@
 	<description>Action to be performed when chart slice is clicked</description>
 </property>
 
- <property key="ValueName" type="attribute" >
+ <!-- <property key="ValueName" type="attribute" >
 	<caption>Name</caption>
 	<description>his attribute is the name of the values</description>
 	<attributeTypes>
@@ -39,8 +39,8 @@
 		<attributeType name="Integer"/>
     	<attributeType name="String"/>
 		<attributeType name="Decimal"/>
-	</attributeTypes>
-</property>
+	</attributeTypes> 
+</property>-->
         </propertyGroup>
     </properties>
 </widget>

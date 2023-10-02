@@ -2,6 +2,7 @@ import { Component, createElement, useEffect, useState, useRef } from "react";
 import * as echarts from "echarts";
 import { HelloWorldSample } from "./components/HelloWorldSample";
 import "./ui/ChartCRMI.css";
+import { get } from "http";
 
 export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }) {
     const [DynamicWidth, setDynamicWidth] = useState(-1);
@@ -9,23 +10,29 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
     const [ChartData, setChartData] = useState([]);
     const observerDiv = useRef(null);
 
+    const getSymbol = item => {
+        const symbols = Object.getOwnPropertySymbols(item);
+        const mxSymbol = symbols.find(symbol => symbol.toString() === "Symbol(mxObject)");
+        return mxSymbol;
+    };
+    const getMXValues = attr => {
+        const x = data.items.map(item => {
+            const mySymbol = getSymbol(item);
+            return item[mySymbol].jsonData.attributes[attr].value;
+        });
+        return x;
+    };
+
     useEffect(() => {
         if (data.status === "available") {
-            console.info("inside useEffect data", data);
-            const ValuesName = data.items.map(item => {
-                console.info("ValueName", ValueName);
-                return ValueName.get(item);
-            });
-
-            const Values = data.items.map(item => {
-                return Value.get(item);
-            });
+            const ValuesName = getMXValues("LateType");
+            const Values = getMXValues("NOT_LATE");
 
             setChartData(
                 Values.map((item, index) => {
                     return {
-                        value: item.displayValue,
-                        name: ValuesName[index].value
+                        value: item,
+                        name: ValuesName[index]
                     };
                 })
             );
@@ -33,10 +40,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
     }, [data.status]);
 
     const buildChart = () => {
-        console.info("inside buildChart");
         var chartDom = document.getElementById("chart-container");
-        console.info("chartDom", chartDom);
-        console.info("chartData inside build chart", ChartData);
         var myChart = echarts.init(chartDom);
         var option;
         option = {
@@ -98,11 +102,11 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
 
         setDynamicWidth(DynamicWidthValue);
         setDynamicHeight(DynamicHeightValue);
-        if (sort.type === "Integer" || sort.type === "Decimal") {
-            ChartData.sort((a, b) => {
-                return a.value - b.value;
-            });
-        }
+        // if (sort.type === "Integer" || sort.type === "Decimal") {
+        //     ChartData.sort((a, b) => {
+        //         return a.value - b.value;
+        //     });
+        // }
         setTimeout(() => {
             buildChart();
         }, 500);
@@ -111,12 +115,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
     return (
         <div>
             {/* <input type="number" value={DynamicWidth} onChange={e => setDynamicWidth(e.target.value)} /> */}
-            {
-                (console.info("dynamicWidth in return statement", DynamicWidth),
-                console.info("dynamicHeight in return statement", DynamicHeight))
-            }
             <div id="chart-container" style={{ height: DynamicHeight, width: DynamicWidth }} ref={observerDiv}></div>
-            <p>{DynamicWidth}</p>
         </div>
     );
 }
