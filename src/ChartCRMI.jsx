@@ -4,7 +4,7 @@ import { HelloWorldSample } from "./components/HelloWorldSample";
 import "./ui/ChartCRMI.css";
 import { get } from "http";
 
-export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }) {
+export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, delay, refreshAction }) {
     const [DynamicWidth, setDynamicWidth] = useState(-1);
     const [DynamicHeight, setDynamicHeight] = useState(-1);
     const [ChartData, setChartData] = useState([]);
@@ -22,10 +22,9 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
         });
         return x;
     };
-
     useEffect(() => {
         if (data.status === "available") {
-            const ValuesName = getMXValues("LateType");
+            const ValuesName = getMXValues("LATETYPE");
             const Values = getMXValues("NOT_LATE");
 
             setChartData(
@@ -37,7 +36,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
                 })
             );
         }
-    }, [data.status]);
+    }, [data?.status]);
 
     const buildChart = () => {
         var chartDom = document.getElementById("chart-container");
@@ -109,7 +108,12 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort }
         // }
         setTimeout(() => {
             buildChart();
-        }, 500);
+        }, delay);
+        if (refreshAction) {
+            setInterval(() => {
+                refreshAction.execute();
+            }, 30000);
+        }
     }, [ChartData]);
 
     return (

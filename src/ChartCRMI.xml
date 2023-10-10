@@ -16,7 +16,15 @@
 	<caption>On clicks</caption>
 	<description>Action to be performed when chart slice is clicked</description>
 </property>
+<property key="delay" type="integer" defaultValue="1000">
+	<caption>Delay Time</caption>
+	<description>My integer setting</description>
+</property>
 
+         <property key="refreshAction" type="action">
+	<caption>On clicks</caption>
+	<description>refresh microflow</description>
+</property>
  <!-- <property key="ValueName" type="attribute" >
 	<caption>Name</caption>
 	<description>his attribute is the name of the values</description>
