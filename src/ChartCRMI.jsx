@@ -6,13 +6,16 @@ import { get } from "http";
 import { set } from "bro-fs";
 
 export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, delay, refreshAction, booleanAttr }) {
+    console.info("this is data", data);
+    console.info("boolean Attr", booleanAttr);
     const [DynamicWidth, setDynamicWidth] = useState(-1);
     const [DynamicHeight, setDynamicHeight] = useState(-1);
-    // const [ChartData, setChartData] = useState([]);
+    const [ChartData, setChartData] = useState([]);
     const [allowBuild, setAllowBuild] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const observerDiv = useRef(null);
-    let chartData = [];
+
+    console.info("allow ///////", allowBuild);
 
     useEffect(() => {
         console.info("it's withing the use effect of allow build");
@@ -20,46 +23,59 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, 
             console.info("it's not allowed to build");
             if (booleanAttr.value === true) {
                 console.info("it's allowed to build");
-                fillInData();
                 initateDimensions();
-
                 setTimeout(() => {
                     buildChart();
-                }, delay);
+                }, 5000);
                 setAllowBuild(true);
             }
         }
     }, [booleanAttr, data]);
-
     const getSymbol = item => {
         const symbols = Object.getOwnPropertySymbols(item);
         const mxSymbol = symbols.find(symbol => symbol.toString() === "Symbol(mxObject)");
         return mxSymbol;
     };
     const getMXValues = attr => {
-        console.info("getMXValues", data);
         const x = data.items.map(item => {
             const mySymbol = getSymbol(item);
             return item[mySymbol].jsonData.attributes[attr].value;
         });
         return x;
     };
-    const fillInData = () => {
+    useEffect(() => {
         if (data.status === "available") {
             const ValuesName = getMXValues("LATETYPE");
             const Values = getMXValues("NOT_LATE");
-            chartData = Values.map((item, index) => {
-                return {
-                    value: item,
-                    name: ValuesName[index]
-                };
-            });
-            console.info("this is the chart data", data);
+            setChartData(
+                Values.map((item, index) => {
+                    return {
+                        value: item,
+                        name: ValuesName[index]
+                    };
+                })
+            );
         }
-    };
+    }, [data?.status]);
+
+    let chartDataTake2 = [];
+    useEffect(() => {
+        console.info("chartData||||||", ChartData);
+        chartDataTake2 = ChartData;
+
+        // if (first) {
+        if (allowBuild) {
+            initateDimensions();
+            setTimeout(() => {
+                buildChart();
+            }, 5000);
+        }
+        // }
+    }),
+        [ChartData];
 
     const buildChart = () => {
-        // console.info("it's building the chart", ChartData);
+        console.info("it's building the chart");
         var chartDom = document.getElementById("chart-container");
         var myChart = echarts.init(chartDom);
         var option;
@@ -98,7 +114,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, 
                     labelLine: {
                         show: false
                     },
-                    data: chartData,
+                    data: ChartData,
                     animationType: "transition",
                     animationTypeUpdate: "expansion",
                     animation: true,
@@ -114,10 +130,9 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, 
     };
 
     const initateDimensions = () => {
-        // console.info("it's initiating the dimensions and this is the chart data", observerDiv.current);
-        console.info("it's initiating the dimensions and this is the chart data", chartData);
-        if (chartData.length === 0) return;
-        const numDataPoints = chartData.length;
+        console.info("it's initiating the dimensions and this is the chart data", observerDiv.current);
+        if (ChartData.length === 0) return;
+        const numDataPoints = ChartData.length;
         const DynamicWidthValue = 300 + numDataPoints * 20;
         const DynamicHeightValue = 300 + numDataPoints * 20 + 100;
         setDynamicWidth(DynamicWidthValue);
