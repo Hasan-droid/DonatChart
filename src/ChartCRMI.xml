@@ -3,7 +3,7 @@
         supportedPlatform="Web"
         xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Chart CRMI</name>
+    <name>Donat Chart</name>
     <description>My widget description</description>
     <icon/>
     <properties>
@@ -20,18 +20,18 @@
 	<caption>Delay Time</caption>
 	<description>My integer setting</description>
 </property>
-
-         <property key="refreshAction" type="action">
-	<caption>On clicks</caption>
-	<description>refresh microflow</description>
-</property>
- <!-- <property key="ValueName" type="attribute" >
-	<caption>Name</caption>
-	<description>his attribute is the name of the values</description>
+  <property key="booleanAttr" type="attribute" >
+	<caption>set Build Condition</caption>
+	<description>this attribute is the flag to build the widget</description>
 	<attributeTypes>
-		<attributeType name="String"/>
+		<attributeType name="Boolean"/>
 	</attributeTypes>
 </property>
+
+         <!-- <property key="refreshAction" type="action">
+	<caption>On clicks</caption>
+	<description>refresh microflow</description>
+</property> 
  <property key="Value" type="attribute" >
 	<caption>Value</caption>
 	<description>this attribute is the values</description>
