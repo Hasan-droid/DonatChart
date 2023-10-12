@@ -26,7 +26,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, 
                 initateDimensions();
                 setTimeout(() => {
                     buildChart();
-                }, 5000);
+                }, delay);
                 setAllowBuild(true);
             }
         }
@@ -56,7 +56,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, 
                 })
             );
         }
-    }, [data?.status]);
+    }, [data?.items]);
 
     let chartDataTake2 = [];
     useEffect(() => {
@@ -68,7 +68,7 @@ export default function ChartCRMI({ Value, ValueName, buttonAction, data, sort, 
             initateDimensions();
             setTimeout(() => {
                 buildChart();
-            }, 5000);
+            }, delay);
         }
         // }
     }),
